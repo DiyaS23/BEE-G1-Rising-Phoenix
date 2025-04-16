@@ -4,13 +4,63 @@
     "title": "Inception",
     "genre": "Sci-Fi",
     "releaseYear": 2010,
-    "rating": 8.8
+    "rating": 8.8,
+    "posterUrl": "https://m.media-amazon.com/images/I/61dqV4J7R2L._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "id": 2,
     "title": "KKKG",
     "genre": "Romance",
     "releaseYear": 2008,
-    "rating": 9.2
+    "rating": 9.2,
+    "posterUrl": "https://bollywoodmovieposters.com/wp-content/uploads/kabhi-khushi-kabhie-gham-k3g-kkkg-movie-poster.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Vivaah",
+    "genre": "Romance",
+    "releaseYear": "2006",
+    "rating": "6.7",
+    "posterUrl": "https://upload.wikimedia.org/wikipedia/en/4/41/Vivah_%282006_film%29_poster.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Tubelight",
+    "genre": "Family-Drama",
+    "releaseYear": "2017",
+    "rating": "3.4",
+    "posterUrl": "https://images.inuth.com/2017/05/7Salman-Khans-first-look-from-Kabir-Khan-directorial-Tubelight.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Mufasa-The Lion King",
+    "genre": "Fantasy",
+    "releaseYear": "2024",
+    "rating": "6.6",
+    "posterUrl": "https://m.media-amazon.com/images/I/A1z543w2WVL._AC_UF1000,1000_QL80_.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Moana",
+    "genre": "Animation",
+    "releaseYear": "2024",
+    "rating": "7.5",
+    "posterUrl": "https://upload.wikimedia.org/wikipedia/en/7/73/Moana_2_poster.jpg"
+  },
+  {
+    "id": 7,
+    "title": "BahuBali",
+    "genre": "Action,Romance",
+    "releaseYear": "2015",
+    "rating": "9.6",
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BM2YxZThhZmEtYzM0Yi00OWYxLWI4NGYtM2Y2ZDNmOGE0ZWQzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
+  },
+  {
+    "id": 8,
+    "title": "SherShaah",
+    "genre": "Biographical,Romance",
+    "releaseYear": "2021",
+    "rating": "8.9",
+    "posterUrl": "https://upload.wikimedia.org/wikipedia/en/9/91/Shershaah_film_poster.jpg"
   }
 ]

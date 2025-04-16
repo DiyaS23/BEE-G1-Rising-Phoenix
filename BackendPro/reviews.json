@@ -1,7 +1,23 @@
 [
   {
-    "id": 2,
+    "id": 1,
+    "userId": 1,
     "movieId": 1,
-    "text": "Amazing movie with great visuals!"
+    "rating": 9,
+    "comment": "Awesome!"
+  },
+  {
+    "id": 2,
+    "userId": 11,
+    "reviewText": "okaish!!!",
+    "rating": 2,
+    "movieId": "1"
+  },
+  {
+    "id": 3,
+    "userId": 11,
+    "reviewText": "Nice Movie!!!Enjoyed it alot",
+    "rating": 5,
+    "movieId": "6"
   }
 ]

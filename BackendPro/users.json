@@ -1,12 +1,79 @@
 [
   {
+    "id": 1,
+    "name": "Diya",
+    "email": "diya23@gmail.com"
+  },
+  {
     "id": 2,
-    "name": "John Doe",
-    "email": "john@example.com"
+    "name": "Bhumi",
+    "email": "bhumi@example.com"
   },
   {
     "id": 3,
-    "name": "Ibrahim",
-    "email": "ibrahim@example.com"
+    "name": "Diya",
+    "email": "diya@example.com"
+  },
+  {
+    "id": 4,
+    "username": "john_doe",
+    "password": "password123"
+  },
+  {
+    "id": 5,
+    "username": "Roop",
+    "password": "shinu"
+  },
+  {
+    "id": 6,
+    "username": "Gunn",
+    "password": "Shuvi"
+  },
+  {
+    "id": 7,
+    "username": "rishu",
+    "password": "password@123"
+  },
+  {
+    "id": 8,
+    "username": "Manya",
+    "password": "$2b$10$9PWCXS1NZISL8TVDzgukFufw8HsSz/R1X2O66oTHPyp3QkG8EpLeG",
+    "role": "user"
+  },
+  {
+    "id": 9,
+    "username": "mehru",
+    "password": "$2b$10$ZJjC9AZr7ltWUW/TrGkeweeJ6T9E8DbBJz9EkBB56ea4jFbGYZFbG",
+    "role": "user"
+  },
+  {
+    "id": 10,
+    "username": "mannat",
+    "password": "$2b$10$IrkGBKQJ1bOWqDriwDXUFuKCCcDNKx7yeWVWRl1wclN1SOJaNoxSi",
+    "role": "user"
+  },
+  {
+    "id": 11,
+    "username": "Diya",
+    "password": "$2b$10$7xVVr0cE3QeX.Nway5U/0.D3YFTRPnrpz7nkzFR.RFnD6VXPLJi0u",
+    "role": "admin"
+  },
+  {
+    "id": 12,
+    "username": "Bhumi",
+    "password": "$2b$10$pRsvXBZPiLl8G,FqeKo06NOUYXLfHnXktb6cXWewJpigCPNIOVyEKi",
+    "role": "admin"
+  },
+  {
+    "id": 13,
+    "username": "mannat",
+    "password": "$2b$10$WJOZhNqNdK2sUzrXkPFz3.9Ru6OfrrtqqHCi/v60gUKxp0SWP8M.O",
+    "role": "user"
+  },
+  {
+    "id": 14,
+    "username": "mannat",
+    "password": "$2b$10$/qgr3CGkyWRMuYXVXUjIQ.oR2dijC2lZSayZAdL1FwPo5nM0Y88YC",
+    "role": "user"
   }
 ]

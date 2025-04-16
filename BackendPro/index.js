@@ -93,6 +93,7 @@ app.post("/users", (req, res) => {
       res.status(404).json({ message: "Movie not found!" });
     }
   });
+
   // WATCHLIST CRUD
   app.post("/watchlists", (req, res) => {
     const watchlist = readData("watchlists");
@@ -114,8 +115,6 @@ app.post("/users", (req, res) => {
 
     res.json(enrichedWatchlist);
 });
-
-  
   app.put("/watchlists/:id", (req, res) => {
     let watchlist = readData("watchlists");
     let index = watchlist.findIndex((m) => m.id == req.params.id);
@@ -170,8 +169,8 @@ app.post("/users", (req, res) => {
     writeData("reviews", newReviews);
     res.json({ message: "Review deleted!" });
   });   
-  
-  // Search CRUD
+
+  // Search and Filtering
 const getMovies = () => {
     const data = fs.readFileSync("movies.json");
     return JSON.parse(data);
@@ -199,6 +198,65 @@ const getMovies = () => {
   
     res.json(movies);
   });
+
+ // FAVORITES CRUD
+app.post("/favorites", (req, res) => {
+  const favorites = readData("favorites");
+  const newFavorite = { id: favorites.length + 1, ...req.body };
+  favorites.push(newFavorite);
+  writeData("favorites", favorites);
+  res.status(201).json({ message: "Movie added to favorites!", favorite: newFavorite });
+});
+app.get("/favorites/:userId", (req, res) => {
+  const favorites = readData("favorites");
+  const movies = readData("movies");
+  const userFavorites = favorites
+    .filter(f => f.userId == req.params.userId)
+    .map(f => {
+      const movie = movies.find(m => m.id == f.movieId);
+      return {
+        favoriteId: f.id,
+        movie: movie || null
+      };
+    });
+
+  res.json(userFavorites);
+});
+app.delete("/favorites/:id", (req, res) => {
+  let favorites = readData("favorites");
+  const newFavorites = favorites.filter(f => f.id != req.params.id);
+  if (newFavorites.length !== favorites.length) {
+    writeData("favorites", newFavorites);
+    res.json({ message: "Favorite removed!" });
+  } else {
+    res.status(404).json({ message: "Favorite not found!" });
+  }
+});
+
+//Top-rated CRUDS
+app.get("/movies-top-rated", (req, res) => {
+  const reviews = readData("reviews");
+  const movies = readData("movies");
+  const ratingsMap = {};
+  reviews.forEach(r => {
+    if (!ratingsMap[r.movieId]) {
+      ratingsMap[r.movieId] = [];
+    }
+    ratingsMap[r.movieId].push(r.rating);
+  });
+  console.log(ratingsMap);
+  const averageRatings = movies.map(movie => {
+    const ratings = ratingsMap[movie.id] || [];
+    const average = ratings.length
+      ? ratings.reduce((a, b) => a + b, 0) / ratings.length
+      : 0;
+    return { ...movie, averageRating: average.toFixed(1) };
+  });
+  console.log(averageRatings);
+  const sortedMovies = averageRatings.sort((a, b) => b.averageRating - a.averageRating);
+  const limit = parseInt(req.query.limit) || 5;
+  res.json(sortedMovies.slice(0, limit));
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
