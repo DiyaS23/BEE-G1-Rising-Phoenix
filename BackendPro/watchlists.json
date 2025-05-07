@@ -1,20 +1,5 @@
 [
   {
-    "id": 1,
-    "userId": 6,
-    "movieId": 1
-  },
-  {
-    "id": 2,
-    "userId": 6,
-    "movieId": 2
-  },
-  {
-    "id": 3,
-    "userId": 6,
-    "movieId": 3
-  },
-  {
     "id": 4,
     "userId": 8,
     "movieId": 1

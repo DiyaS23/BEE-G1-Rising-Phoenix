@@ -15,7 +15,7 @@ import MovieDetails from './components/MovieDetails';
 import ManageWatchlists from './pages/ManageWatchlists';
 import ManageUsers from './pages/ManageUsers';
 import ManageReviews from './pages/ManageReviews';
-
+import ChangePassword from './pages/ChangePassword';
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         
         {/* Protected Routes */}
         <Route

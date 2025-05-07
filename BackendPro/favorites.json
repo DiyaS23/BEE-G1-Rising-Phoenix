@@ -43,5 +43,10 @@
     "id": 9,
     "userId": 15,
     "movieId": 6
+  },
+  {
+    "id": 10,
+    "userId": 17,
+    "movieId": 2
   }
 ]

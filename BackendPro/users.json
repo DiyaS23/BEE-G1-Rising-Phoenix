@@ -1,25 +1,5 @@
 [
   {
-    "id": 4,
-    "username": "john_doe",
-    "password": "password123"
-  },
-  {
-    "id": 5,
-    "username": "Roop",
-    "password": "shinu"
-  },
-  {
-    "id": 6,
-    "username": "Gunn",
-    "password": "Shuvi"
-  },
-  {
-    "id": 7,
-    "username": "rishu",
-    "password": "password@123"
-  },
-  {
     "id": 8,
     "username": "Manya",
     "password": "$2b$10$9PWCXS1NZISL8TVDzgukFufw8HsSz/R1X2O66oTHPyp3QkG8EpLeG",
@@ -34,7 +14,7 @@
   {
     "id": 10,
     "username": "mannat",
-    "password": "$2b$10$IrkGBKQJ1bOWqDriwDXUFuKCCcDNKx7yeWVWRl1wclN1SOJaNoxSi",
+    "password": "$2b$10$G.hlWIQBQ76ArxTDeA0ZLuQDg5Nr55C4NI3u0rxt.IEBhC8aUVeM2",
     "role": "user"
   },
   {
@@ -68,9 +48,15 @@
     "role": "user"
   },
   {
-    "id": 13,
+    "id": 16,
     "username": "Diyaa",
     "password": "$2b$10$L5gWHxAnKd3CNx1H5Li58.IPvJ3KEWpRimWZisSRt90wBMty7K9oO",
     "role": "admin"
+  },
+  {
+    "id": 17,
+    "username": "Sid",
+    "password": "$2b$10$qd76Sc2b3Y1UsoKKkyocqunVZHqTg9FBqmkZANsM9zXsVC./Hjonm",
+    "role": "user"
   }
 ]

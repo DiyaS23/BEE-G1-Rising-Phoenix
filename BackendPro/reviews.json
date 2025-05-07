@@ -40,5 +40,12 @@
     "reviewText": "best movie",
     "rating": 4,
     "movieId": "2"
+  },
+  {
+    "id": 7,
+    "userId": 17,
+    "reviewText": "I liked the family drama!!",
+    "rating": 3,
+    "movieId": "2"
   }
 ]

@@ -48,4 +48,9 @@
     color: #e74c3c;
     font-weight: bold;
   }
+  .user-watchlist-group {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+  }
   

@@ -42,7 +42,8 @@ const bcrypt = require("bcrypt");
 app.post("/users", async (req, res) => {
   const users = readData("users");
   const hashedPassword = await bcrypt.hash(req.body.password, 10); // 10 is salt rounds
-  const newUser = { id: users.length + 1, username: req.body.username, password: hashedPassword, role: "user" };
+  const maxId = users.length > 0 ? Math.max(...users.map(u => u.id)) : 0;
+  const newUser = { id: maxId + 1, username: req.body.username, password: hashedPassword, role: "user" };
   users.push(newUser);
   writeData("users", users);
   res.status(201).json({ message: "User registered!", user: newUser });
@@ -109,6 +110,38 @@ app.put("/users/:id", authenticateJWT, isAdmin, (req, res) => {
   } else {
     res.status(404).json({ message: "User not found!" });
   }
+});
+app.put("/users/:id/password", authenticateJWT, async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const { id } = req.params;
+
+  // Only allow user to update their own password or admin
+  if (req.user.userId != id && req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access denied." });
+  }
+
+  let users = readData("users");
+  let index = users.findIndex(u => u.id == id);
+  if (index === -1) {
+    return res.status(404).json({ message: "User not found!" });
+  }
+
+  const user = users[index];
+
+  // If not admin, verify old password
+  if (req.user.role !== "admin") {
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Old password is incorrect." });
+    }
+  }
+
+  // Hash new password and save
+  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+  users[index].password = hashedNewPassword;
+
+  writeData("users", users);
+  res.json({ message: "Password updated successfully!" });
 });
 
 app.delete("/users/:id", authenticateJWT,  isAdmin,(req, res) => {
@@ -194,6 +227,38 @@ app.post("/watchlists", authenticateJWT, (req, res) => {
   res.status(201).json({ message: "Movie added to watchlist!" });
 });
 
+// GET all watchlists (admin only)
+app.get("/watchlists/admin-all", authenticateJWT, isAdmin, (req, res) => {
+  const watchlists = readData("watchlists");
+  const movies = readData("movies");
+  const users = readData("users");
+
+  // Group watchlists by userId
+  const groupedByUser = {};
+
+  watchlists.forEach(item => {
+    const user = users.find(u => u.id === item.userId);
+    const movie = movies.find(m => m.id === item.movieId);
+
+    if (!groupedByUser[item.userId]) {
+      groupedByUser[item.userId] = {
+        userId: item.userId,
+        username: user?.username || 'Unknown',
+        watchlists: [],
+      };
+    }
+
+    groupedByUser[item.userId].watchlists.push({
+      watchlistId: item.id,
+      movie: movie || null,
+    });
+  });
+
+  // Convert grouped object to array
+  const result = Object.values(groupedByUser);
+  res.json(result);
+});
+
 
 app.get("/watchlists", authenticateJWT, (req, res) => {
   const watchlist = readData("watchlists");
@@ -202,6 +267,7 @@ app.get("/watchlists", authenticateJWT, (req, res) => {
   const enrichedWatchlist = userWatchlist.map(item => {
     const movie = movies.find(m => m.id === item.movieId);
     return {
+      watchlistId: item.id,
       userId: item.userId,
       movie: movie || null
     };
@@ -369,9 +435,44 @@ res.status(201).json({ message: "Review added!", review: newReview });
 
 });
 
-app.get("/reviews", authenticateJWT, (req, res) => {
-  res.json(readData("reviews"));
+// GET all reviews (admin only)
+app.get("/reviews", authenticateJWT, isAdmin, (req, res) => {
+  const reviews = readData("reviews");
+  const movies = readData("movies");
+  const users = readData("users");
+
+  const userMap = users.reduce((acc, user) => {
+    acc[user.id] = user.username;
+    return acc;
+  }, {});
+
+  const grouped = {};
+
+  reviews.forEach((review) => {
+    const username = userMap[review.userId] || 'Unknown User';
+    const movie = movies.find(m => m.id === Number(review.movieId));
+    const enrichedReview = {
+      reviewId: review.id,
+      content: review.reviewText,
+      rating: review.rating,
+      movie: movie || null
+    };
+
+    if (!grouped[review.userId]) {
+      grouped[review.userId] = {
+        userId: review.userId,
+        username,
+        reviews: [enrichedReview],
+      };
+    } else {
+      grouped[review.userId].reviews.push(enrichedReview);
+    }
+  });
+
+  res.json(Object.values(grouped));
 });
+
+
 
 app.put("/reviews/:id", authenticateJWT, (req, res) => {
   let reviews = readData("reviews");
@@ -390,6 +491,21 @@ app.delete("/reviews/:id", authenticateJWT, (req, res) => {
   let newReviews = reviews.filter(r => r.id != req.params.id);
   writeData("reviews", newReviews);
   res.json({ message: "Review deleted!" });
+});
+
+
+// DELETE review
+app.delete("/reviews/:id", authenticateJWT, isAdmin, (req, res) => {
+  const { id } = req.params;
+  const reviews = readData("reviews");
+  const updatedReviews = reviews.filter(review => review.id !== parseInt(id));
+
+  if (updatedReviews.length === reviews.length) {
+    return res.status(404).json({ message: "Review not found!" });
+  }
+
+  writeData("reviews", updatedReviews);
+  res.json({ message: "Review deleted successfully!" });
 });
 
 

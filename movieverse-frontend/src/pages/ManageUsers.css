@@ -49,3 +49,22 @@
     font-weight: bold;
   }
   
+  .password-edit-form {
+    margin-top: 10px;
+  }
+  
+  .password-edit-form input {
+    padding: 6px;
+    margin-right: 5px;
+    width: 150px;
+  }
+  
+  .change-btn {
+    margin-left: 10px;
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
