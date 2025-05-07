@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -66,4 +66,92 @@
   
   .logout-btn:hover {
     background-color: #e84118;
-  }
+  } */
+
+
+
+
+  /* Navbar Styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1c1c1c;
+  padding: 15px 30px;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.navbar-logo a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-bar button {
+  background-color: #e50914;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+}
+
+.search-bar button i {
+  pointer-events: none;
+}
+
+/* Navbar Icons */
+.navbar-icons a {
+  margin-left: 20px;
+  color: #fff;
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+/* Hover Effect */
+.navbar-icons a:hover {
+  color: #e50914;
+}
+
+/* Admin Links Styling */
+.navbar-icons a.admin-link {
+  margin-left: 30px; /* Add extra space between admin links */
+}
+
+.navbar-icons a.admin-link:hover {
+  color: #ffd700; /* Gold color on hover for admin links */
+}
+
+/* Logout Button */
+.logout-btn {
+  padding: 8px 12px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-left: 15px;
+}
+
+.logout-btn:hover {
+  background-color: #e84118;
+}

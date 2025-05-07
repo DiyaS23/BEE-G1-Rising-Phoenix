@@ -1,0 +1,51 @@
+.manage-watchlists-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .manage-watchlists-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .watchlist-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .watchlist-item {
+    background: #f0f0f0;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+    align-items: center;
+  }
+  
+  .watchlist-info {
+    font-weight: 500;
+  }
+  
+  .delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .no-permission-message {
+    padding: 20px;
+    text-align: center;
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  

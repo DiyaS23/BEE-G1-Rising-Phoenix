@@ -1,20 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Diya",
-    "email": "diya23@gmail.com"
-  },
-  {
-    "id": 2,
-    "name": "Bhumi",
-    "email": "bhumi@example.com"
-  },
-  {
-    "id": 3,
-    "name": "Diya",
-    "email": "diya@example.com"
-  },
-  {
     "id": 4,
     "username": "john_doe",
     "password": "password123"
@@ -75,5 +60,17 @@
     "username": "mannat",
     "password": "$2b$10$/qgr3CGkyWRMuYXVXUjIQ.oR2dijC2lZSayZAdL1FwPo5nM0Y88YC",
     "role": "user"
+  },
+  {
+    "id": 15,
+    "username": "vansh",
+    "password": "$2b$10$Hi4ZlUGNFcHGBu70fYlAfOK/KZZGtg4UgL4jEg44UCBlo5/GclFSa",
+    "role": "user"
+  },
+  {
+    "id": 13,
+    "username": "Diyaa",
+    "password": "$2b$10$L5gWHxAnKd3CNx1H5Li58.IPvJ3KEWpRimWZisSRt90wBMty7K9oO",
+    "role": "admin"
   }
 ]

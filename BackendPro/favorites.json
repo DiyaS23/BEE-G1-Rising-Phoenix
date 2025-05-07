@@ -33,5 +33,15 @@
     "id": 7,
     "userId": 8,
     "movieId": 1
+  },
+  {
+    "id": 8,
+    "userId": 11,
+    "movieId": 1
+  },
+  {
+    "id": 9,
+    "userId": 15,
+    "movieId": 6
   }
 ]

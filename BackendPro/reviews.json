@@ -1,12 +1,5 @@
 [
   {
-    "id": 1,
-    "userId": 1,
-    "movieId": 1,
-    "rating": 9,
-    "comment": "Awesome!"
-  },
-  {
     "id": 2,
     "userId": 11,
     "reviewText": "okaish!!!",
@@ -19,5 +12,33 @@
     "reviewText": "Nice Movie!!!Enjoyed it alot",
     "rating": 5,
     "movieId": "6"
+  },
+  {
+    "id": 4,
+    "userId": 11,
+    "reviewText": "nice moviee",
+    "rating": 5,
+    "movieId": "1"
+  },
+  {
+    "id": 5,
+    "userId": 11,
+    "reviewText": "good",
+    "rating": 4,
+    "movieId": "6"
+  },
+  {
+    "id": 6,
+    "userId": 11,
+    "reviewText": "Not nice",
+    "rating": 1,
+    "movieId": "4"
+  },
+  {
+    "id": 7,
+    "userId": 10,
+    "reviewText": "best movie",
+    "rating": 4,
+    "movieId": "2"
   }
 ]

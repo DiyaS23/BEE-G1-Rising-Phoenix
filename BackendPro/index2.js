@@ -1,311 +1,3 @@
-// const express = require("express");
-// const jwt = require("jsonwebtoken");
-// const cors = require('cors');
-// require('dotenv').config();
-// const fs = require("fs");
-// const { readData, writeData } = require("./file");
-// const movies = require("./movies.json");
-
-// const app = express();  // Declare app first
-// app.use(cors());  // Then use cors middleware
-
-// const port = 3002;
-
-// app.use(express.json());
-
-// // JWT Authentication Middleware
-// const authenticateJWT = (req, res, next) => {
-//   const authHeader = req.header("Authorization");
-//   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-//     return res.status(401).json({ message: "Access denied. No token provided." });
-//   }
-//   const token = authHeader.split(" ")[1];
-//   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-//     if (err) {
-//       return res.status(403).json({ message: "Invalid token." });
-//     }
-//     req.user = user;
-//     next();
-//   });
-// };
-
-// // User Registration (public)
-// app.post("/users", (req, res) => {
-//   const users = readData("users");
-//   const newUser = { id: users.length + 1, ...req.body };
-//   users.push(newUser);
-//   writeData("users", users);
-//   res.status(201).json({ message: "User registered!", user: newUser });
-// });
-
-// // User Login (public)
-// app.post("/login", (req, res) => {
-//   const { username, password } = req.body;
-//   const users = readData("users");
-//   const user = users.find(u => u.username === username && u.password === password);
-
-//   if (!user) {
-//     return res.status(400).json({ message: "Invalid credentials." });
-//   }
-
-//   const token = jwt.sign(
-//     { userId: user.id, username: user.username },
-//     process.env.JWT_SECRET,
-//     { expiresIn: '1h' }
-//   );
-
-//   res.json({ message: "Login successful", token });
-// });
-
-// // Welcome message
-// app.get("/", (req, res) => {
-//   res.send("Welcome to MovieVerse API!");
-// });
-
-// // USERS (protected)
-// app.get("/users", authenticateJWT, (req, res) => {
-//   res.json(readData("users"));
-// });
-
-// app.get("/users/:id", authenticateJWT, (req, res) => {
-//   const user = readData("users").find(u => u.id == req.params.id);
-//   user ? res.json(user) : res.status(404).json({ message: "User not found!" });
-// });
-
-// app.put("/users/:id", authenticateJWT, (req, res) => {
-//   let users = readData("users");
-//   let index = users.findIndex(u => u.id == req.params.id);
-//   if (index !== -1) {
-//     users[index] = { ...users[index], ...req.body };
-//     writeData("users", users);
-//     res.json({ message: "User updated!", user: users[index] });
-//   } else {
-//     res.status(404).json({ message: "User not found!" });
-//   }
-// });
-
-// app.delete("/users/:id", authenticateJWT, (req, res) => {
-//   let users = readData("users");
-//   let newUsers = users.filter(u => u.id != req.params.id);
-//   if (newUsers.length !== users.length) {
-//     writeData("users", newUsers);
-//     res.json({ message: "User deleted!" });
-//   } else {
-//     res.status(404).json({ message: "User not found!" });
-//   }
-// });
-
-// // MOVIES (protected)
-// app.post("/movies", authenticateJWT, (req, res) => {
-//   const movies = readData("movies");
-//   const newMovie = { id: movies.length + 1, ...req.body };
-//   movies.push(newMovie);
-//   writeData("movies", movies);
-//   res.status(201).json({ message: "Movie added!", movie: newMovie });
-// });
-
-// app.get("/movies", authenticateJWT, (req, res) => {
-//   res.json(readData("movies"));
-// });
-
-// app.get("/movies/:id", authenticateJWT, (req, res) => {
-//   const movie = readData("movies").find(m => m.id == req.params.id);
-//   movie ? res.json(movie) : res.status(404).json({ message: "Movie not found!" });
-// });
-
-// app.put("/movies/:id", authenticateJWT, (req, res) => {
-//   let movies = readData("movies");
-//   let index = movies.findIndex(m => m.id == req.params.id);
-//   if (index !== -1) {
-//     movies[index] = { ...movies[index], ...req.body };
-//     writeData("movies", movies);
-//     res.json({ message: "Movie updated!", movie: movies[index] });
-//   } else {
-//     res.status(404).json({ message: "Movie not found!" });
-//   }
-// });
-
-// app.delete("/movies/:id", authenticateJWT, (req, res) => {
-//   let movies = readData("movies");
-//   let newMovies = movies.filter(m => m.id != req.params.id);
-//   if (newMovies.length !== movies.length) {
-//     writeData("movies", newMovies);
-//     res.json({ message: "Movie deleted!" });
-//   } else {
-//     res.status(404).json({ message: "Movie not found!" });
-//   }
-// });
-
-// // WATCHLISTS (protected)
-// app.post("/watchlists", authenticateJWT, (req, res) => {
-//   const watchlist = readData("watchlists");
-//   watchlist.push(req.body);
-//   writeData("watchlists", watchlist);
-//   res.status(201).json({ message: "Movie added to watchlist!" });
-// });
-
-// app.get("/watchlists", authenticateJWT, (req, res) => {
-//   const watchlist = readData("watchlists");
-//   const movies = readData("movies");
-//   const enrichedWatchlist = watchlist.map(item => {
-//     const movie = movies.find(m => m.id === item.movieId);
-//     return {
-//       userId: item.userId,
-//       movie: movie || null
-//     };
-//   });
-//   res.json(enrichedWatchlist);
-// });
-
-// app.put("/watchlists/:id", authenticateJWT, (req, res) => {
-//   let watchlist = readData("watchlists");
-//   let index = watchlist.findIndex(m => m.id == req.params.id);
-//   if (index !== -1) {
-//     watchlist[index] = { ...watchlist[index], ...req.body };
-//     writeData("watchlists", watchlist);
-//     res.json({ message: "Watchlist entry updated!", entry: watchlist[index] });
-//   } else {
-//     res.status(404).json({ message: "Entry not found!" });
-//   }
-// });
-
-// app.delete("/watchlists/user/:userId", authenticateJWT, (req, res) => {
-//   let watchlist = readData("watchlists");
-//   let newWatchlist = watchlist.filter(m => m.userId != req.params.userId);
-//   writeData("watchlists", newWatchlist);
-//   res.json({ message: "Watchlist cleared for user!" });
-// });
-
-// app.delete("/watchlists", authenticateJWT, (req, res) => {
-//   writeData("watchlists", []);
-//   res.json({ message: "Watchlist cleared!" });
-// });
-
-// // REVIEWS (protected)
-// app.post("/reviews", authenticateJWT, (req, res) => {
-//   const reviews = readData("reviews");
-//   reviews.push(req.body);
-//   writeData("reviews", reviews);
-//   res.status(201).json({ message: "Review added!" });
-// });
-
-// app.get("/reviews", authenticateJWT, (req, res) => {
-//   res.json(readData("reviews"));
-// });
-
-// app.put("/reviews/:id", authenticateJWT, (req, res) => {
-//   let reviews = readData("reviews");
-//   let index = reviews.findIndex(r => r.id == req.params.id);
-//   if (index !== -1) {
-//     reviews[index] = { ...reviews[index], ...req.body };
-//     writeData("reviews", reviews);
-//     res.json({ message: "Review updated!", review: reviews[index] });
-//   } else {
-//     res.status(404).json({ message: "Review not found!" });
-//   }
-// });
-
-// app.delete("/reviews/:id", authenticateJWT, (req, res) => {
-//   let reviews = readData("reviews");
-//   let newReviews = reviews.filter(r => r.id != req.params.id);
-//   writeData("reviews", newReviews);
-//   res.json({ message: "Review deleted!" });
-// });
-
-// // SEARCH & FILTER (protected)
-// app.get("/search", authenticateJWT, (req, res) => {
-//   const { title, releaseYear, genre, rating } = req.query;
-//   let movies = readData("movies");
-
-//   if (title) {
-//     movies = movies.filter(m => m.title.toLowerCase().includes(title.toLowerCase()));
-//   }
-//   if (releaseYear) {
-//     movies = movies.filter(m => m.releaseYear === parseInt(releaseYear));
-//   }
-//   if (genre) {
-//     movies = movies.filter(m => m.genre.toLowerCase() === genre.toLowerCase());
-//   }
-//   if (rating) {
-//     movies = movies.filter(m => m.rating >= parseFloat(rating));
-//   }
-
-//   res.json(movies);
-// });
-
-// // FAVORITES (protected)
-// app.post("/favorites", authenticateJWT, (req, res) => {
-//   const favorites = readData("favorites");
-//   const newFavorite = { id: favorites.length + 1, ...req.body };
-//   favorites.push(newFavorite);
-//   writeData("favorites", favorites);
-//   res.status(201).json({ message: "Movie added to favorites!", favorite: newFavorite });
-// });
-
-// app.get("/favorites/:userId", authenticateJWT, (req, res) => {
-//   const favorites = readData("favorites");
-//   const movies = readData("movies");
-//   const userFavorites = favorites
-//     .filter(f => f.userId == req.params.userId)
-//     .map(f => {
-//       const movie = movies.find(m => m.id == f.movieId);
-//       return { favoriteId: f.id, movie: movie || null };
-//     });
-
-//   res.json(userFavorites);
-// });
-
-// app.delete("/favorites/:id", authenticateJWT, (req, res) => {
-//   let favorites = readData("favorites");
-//   const newFavorites = favorites.filter(f => f.id != req.params.id);
-//   if (newFavorites.length !== favorites.length) {
-//     writeData("favorites", newFavorites);
-//     res.json({ message: "Favorite removed!" });
-//   } else {
-//     res.status(404).json({ message: "Favorite not found!" });
-//   }
-// });
-
-// // TOP-RATED MOVIES (protected)
-// app.get("/movies-top-rated", authenticateJWT, (req, res) => {
-//   const reviews = readData("reviews");
-//   const movies = readData("movies");
-//   const ratingsMap = {};
-
-//   reviews.forEach(r => {
-//     if (!ratingsMap[r.movieId]) {
-//       ratingsMap[r.movieId] = [];
-//     }
-//     ratingsMap[r.movieId].push(r.rating);
-//   });
-
-//   const averageRatings = movies.map(movie => {
-//     const ratings = ratingsMap[movie.id] || [];
-//     const average = ratings.length
-//       ? ratings.reduce((a, b) => a + b, 0) / ratings.length
-//       : 0;
-//     return { ...movie, averageRating: average.toFixed(1) };
-//   });
-
-//   const sortedMovies = averageRatings.sort((a, b) => b.averageRating - a.averageRating);
-//   const limit = parseInt(req.query.limit) || 5;
-
-//   res.json(sortedMovies.slice(0, limit));
-// });
-
-// // Start the server
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
-
-
-
-
-
-
-
-
-
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
@@ -385,18 +77,29 @@ app.post("/login", async(req, res) => {
 app.get("/", (req, res) => {
   res.send("Welcome to MovieVerse API!");
 });
+//Admin endpoints
+app.get("/admin/summary", authenticateJWT, isAdmin, (req, res) => {
+  const users = readData("users").length;
+  const movies = readData("movies").length;
+  const reviews = readData("reviews").length;
+  const watchlists = readData("watchlists").length;
+  const favorites = readData("favorites").length;
+
+  res.json({ users, movies, reviews, watchlists, favorites });
+});
+
 
 // USERS (protected)
-app.get("/users", authenticateJWT, (req, res) => {
+app.get("/users", authenticateJWT, isAdmin,(req, res) => {
   res.json(readData("users"));
 });
 
-app.get("/users/:id", authenticateJWT, (req, res) => {
+app.get("/users/:id", authenticateJWT, isAdmin, (req, res) => {
   const user = readData("users").find(u => u.id == req.params.id);
   user ? res.json(user) : res.status(404).json({ message: "User not found!" });
 });
 
-app.put("/users/:id", authenticateJWT, (req, res) => {
+app.put("/users/:id", authenticateJWT, isAdmin, (req, res) => {
   let users = readData("users");
   let index = users.findIndex(u => u.id == req.params.id);
   if (index !== -1) {
@@ -408,7 +111,7 @@ app.put("/users/:id", authenticateJWT, (req, res) => {
   }
 });
 
-app.delete("/users/:id", authenticateJWT, (req, res) => {
+app.delete("/users/:id", authenticateJWT,  isAdmin,(req, res) => {
   let users = readData("users");
   let newUsers = users.filter(u => u.id != req.params.id);
   if (newUsers.length !== users.length) {
@@ -559,6 +262,17 @@ writeData("watchlists", updatedWatchlist);
 res.json({ message: "Your watchlist cleared!" });
 
 });
+app.delete("/watchlists/admin/:id", authenticateJWT, isAdmin, (req, res) => {
+  let watchlist = readData("watchlists");
+  let newWatchlist = watchlist.filter(wl => wl.id != req.params.id);
+  
+  if (newWatchlist.length === watchlist.length) {
+    return res.status(404).json({ message: "Watchlist item not found!" });
+  }
+
+  writeData("watchlists", newWatchlist);
+  res.json({ message: "Watchlist item deleted by admin!" });
+});
 
 // FAVORITES (protected)
 app.post("/favorites", authenticateJWT, (req, res) => {
@@ -625,7 +339,7 @@ app.post("/favorites", authenticateJWT, (req, res) => {
 
 
 // SEARCH & FILTER (protected)
-app.get("/search", authenticateJWT, (req, res) => {
+app.get("/search", (req, res) => {
   const { title, releaseYear, genre, rating } = req.query;
   let movies = readData("movies");
 
