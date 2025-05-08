@@ -145,7 +145,7 @@ function Home() {
         ) : (  // Once loading is false, display movies
           movies.length > 0 ? (
             movies.map(movie => (
-              <Link key={movie.id} to={`/movie/${movie.id}`} className="movie-link">
+              <Link key={movie._id} to={`/movie/${movie._id}`} className="movie-link">
                 <MovieCard movie={movie} />  {/* Display each movie in a MovieCard component */}
               </Link>
             ))

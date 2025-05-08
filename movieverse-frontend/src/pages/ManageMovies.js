@@ -28,7 +28,7 @@ function ManageMovies() {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        setMovies(movies.filter((movie) => movie.id !== id));
+        setMovies(movies.filter((movie) => movie._id !== id));
         alert('Movie deleted successfully!');
       } catch (err) {
         alert('Failed to delete movie.');
@@ -46,11 +46,11 @@ function ManageMovies() {
       <button className="add-movie-btn" onClick={() => navigate('/add-movie')}>+ Add New Movie</button>
       <ul className="movie-list">
         {movies.map((movie) => (
-          <li className="movie-item" key={movie.id}>
+          <li className="movie-item" key={movie._id}>
             <span className="movie-title">{movie.title} - {movie.genre}</span>
             <div className="movie-actions">
-              <button className="delete-btn" onClick={() => handleDelete(movie.id)}>Delete</button>
-              <button className="edit-btn" onClick={() => navigate(`/edit-movie/${movie.id}`)}>Edit</button>
+              <button className="delete-btn" onClick={() => handleDelete(movie._id)}>Delete</button>
+              <button className="edit-btn" onClick={() => navigate(`/edit-movie/${movie._id}`)}>Edit</button>
             </div>
           </li>
         ))}

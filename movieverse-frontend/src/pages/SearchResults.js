@@ -19,7 +19,7 @@ function SearchResults() {
       <h2>Search Results for "{query}"</h2>
       <div className="movies-grid">
         {results.map(movie => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie._id} movie={movie} />
         ))}
       </div>
     </>

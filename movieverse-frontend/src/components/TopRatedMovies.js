@@ -31,7 +31,7 @@ function TopRatedMovies() {
         ) : (
           topRatedMovies.length > 0 ? (
             topRatedMovies.map(movie => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie._id} movie={movie} />
             ))
           ) : (
             <p>No top-rated movies available.</p>

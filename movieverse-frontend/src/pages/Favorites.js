@@ -144,6 +144,181 @@
 // export default Favorites;
 
 
+
+
+
+
+// import { useEffect, useState } from 'react';
+// import api from '../api/api';
+// import MovieCard from '../components/MovieCard';
+
+// function Favorites() {
+//   const [favorites, setFavorites] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const token = localStorage.getItem('token');
+//   const userId = localStorage.getItem('userId');
+
+//   useEffect(() => {
+//     if (!userId || !token) {
+//       alert('Please login to view your favorites');
+//       return;
+//     }
+
+//     api.get(`/favorites/${userId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       }
+//     })
+//       .then(res => {
+//         setFavorites(res.data);
+//         setLoading(false);
+//       })
+//       .catch(err => {
+//         console.error('Error fetching favorites:', err);
+//         setLoading(false);
+//       });
+//   }, [userId, token]);
+
+//   // ✅ Remove from favorites
+//   const handleRemoveFavorite = (favoriteId) => {
+//     api.delete(`/favorites/${favoriteId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       }
+//     })
+//       .then(() => {
+//         setFavorites(favorites.filter(fav => fav.favoriteId !== favoriteId));
+//       })
+//       .catch(err => {
+//         console.error('Error removing favorite:', err);
+//       });
+//   };
+
+//   return (
+//     <div>
+//       <h1>Your Favorites</h1>
+//       {loading ? (
+//         <p>Loading favorites...</p>
+//       ) : (
+//         favorites.length > 0 ? (
+//           <div className="movies-grid">
+//             {favorites.map((favorite) => (
+//               favorite.movie && (
+//                 <div key={favorite._id} className="movie-card">
+//                   <MovieCard movie={favorite.movie} />
+//                   <button 
+//                     className="remove-button"
+//                     onClick={() => handleRemoveFavorite(favorite._id)}
+//                   >
+//                     Remove
+//                   </button>
+//                 </div>
+//               )
+//             ))}
+//           </div>
+//         ) : (
+//           <p>No favorites found.</p>
+//         )
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Favorites;
+
+
+
+
+
+
+
+
+// import { useEffect, useState } from 'react';
+// import api from '../api/api';
+// import MovieCard from '../components/MovieCard';
+
+// function Favorites() {
+//   const [favorites, setFavorites] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const token = localStorage.getItem('token');
+//   const userId = localStorage.getItem('userId');
+
+//   useEffect(() => {
+//     if (!userId || !token) {
+//       alert('Please login to view your favorites');
+//       return;
+//     }
+
+//     api.get(`/favorites/${userId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//       .then((res) => {
+//         setFavorites(res.data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.error('Error fetching favorites:', err);
+//         setLoading(false);
+//         alert('Failed to load favorites. Please try again later.');
+//       });
+//   }, [userId, token]);
+
+//   // ✅ Remove from favorites
+//   const handleRemoveFavorite = (favoriteId) => {
+//     api.delete(`/favorites/${favoriteId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//       .then(() => {
+//         setFavorites(favorites.filter((fav) => fav._id !== favoriteId));
+//       })
+//       .catch((err) => {
+//         console.error('Error removing favorite:', err);
+//         alert('Failed to remove movie from favorites. Please try again later.');
+//       });
+//   };
+
+//   return (
+//     <div>
+//       <h1>Your Favorites</h1>
+//       {loading ? (
+//         <p>Loading favorites...</p>
+//       ) : (
+//         favorites.length > 0 ? (
+//           <div className="movies-grid">
+//             {favorites.map((favorite) =>
+//               favorite.movie ? (
+//                 <div key={favorite._id} className="movie-card">
+//                   <MovieCard movie={favorite.movie} />
+//                   <button
+//                     className="remove-button"
+//                     onClick={() => handleRemoveFavorite(favorite._id)}
+//                   >
+//                     Remove
+//                   </button>
+//                 </div>
+//               ) : (
+//                 <p key={favorite._id}>Movie details not available</p>
+//               )
+//             )}
+//           </div>
+//         ) : (
+//           <p>No favorites found.</p>
+//         )
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Favorites;
+
+
+
 import { useEffect, useState } from 'react';
 import api from '../api/api';
 import MovieCard from '../components/MovieCard';
@@ -155,11 +330,15 @@ function Favorites() {
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
 
+  // Fetch the user's favorite movies
   useEffect(() => {
     if (!userId || !token) {
       alert('Please login to view your favorites');
       return;
     }
+
+    console.log('userId:', userId); // Log the userId
+    console.log('token:', token);   // Log the token
 
     api.get(`/favorites/${userId}`, {
       headers: {
@@ -167,7 +346,10 @@ function Favorites() {
       }
     })
       .then(res => {
-        setFavorites(res.data);
+        console.log('Favorites Data:', res.data); // Debug log to check the structure of data
+        if (res.data && Array.isArray(res.data)) {
+          setFavorites(res.data); // Set data only if it's valid
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -176,18 +358,25 @@ function Favorites() {
       });
   }, [userId, token]);
 
-  // ✅ Remove from favorites
+  // Handle removing a favorite item
   const handleRemoveFavorite = (favoriteId) => {
+    console.log('Removing favorite with ID:', favoriteId); // Check favoriteId here
+
+    if (!favoriteId) {
+      console.error('Invalid favorite ID:', favoriteId); // If ID is invalid, log and return
+      return;
+    }
+
     api.delete(`/favorites/${favoriteId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
     })
       .then(() => {
-        setFavorites(favorites.filter(fav => fav.favoriteId !== favoriteId));
+        setFavorites(prev => prev.filter(fav => fav.favoriteId !== favoriteId)); // Remove from UI
       })
       .catch(err => {
-        console.error('Error removing favorite:', err);
+        console.error('Error removing from favorites:', err);
       });
   };
 
@@ -199,22 +388,29 @@ function Favorites() {
       ) : (
         favorites.length > 0 ? (
           <div className="movies-grid">
-            {favorites.map((favorite) => (
-              favorite.movie && (
+            {favorites.map((favorite) => {
+              // Log favorite data to check its structure
+              console.log('Favorite:', favorite); 
+              if (!favorite.favoriteId || !favorite.movie) {
+                console.error('Missing favoriteId or movie in favorite:', favorite);
+                return null; // Skip rendering this if any required field is missing
+              }
+
+              return (
                 <div key={favorite.favoriteId} className="movie-card">
                   <MovieCard movie={favorite.movie} />
-                  <button 
+                  <button
                     className="remove-button"
-                    onClick={() => handleRemoveFavorite(favorite.favoriteId)}
+                    onClick={() => handleRemoveFavorite(favorite.favoriteId)} // Pass favoriteId to delete
                   >
                     Remove
                   </button>
                 </div>
-              )
-            ))}
+              );
+            })}
           </div>
         ) : (
-          <p>No favorites found.</p>
+          <p>No movies found in your favorites.</p>
         )
       )}
     </div>

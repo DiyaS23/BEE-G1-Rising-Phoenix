@@ -48,5 +48,15 @@
     "id": 10,
     "userId": 17,
     "movieId": 2
+  },
+  {
+    "id": 11,
+    "userId": "681c56b53cf8b7ea2b6fcbfb",
+    "movieId": 6
+  },
+  {
+    "id": 12,
+    "userId": 10,
+    "movieId": 5
   }
 ]

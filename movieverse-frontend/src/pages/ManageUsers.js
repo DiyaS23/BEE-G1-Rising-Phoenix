@@ -89,7 +89,7 @@ function ManageUsers() {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        setUsers(users.filter(user => user.id !== id));
+        setUsers(users.filter(user => user._id !== id));
         alert('User deleted successfully!');
       } catch (err) {
         alert('Failed to delete user.');
@@ -123,12 +123,12 @@ function ManageUsers() {
       <h2>Manage Users</h2>
       <ul className="user-list">
         {users.map(user => (
-          <li className="user-item" key={user.id}>
+          <li className="user-item" key={user._id}>
             <span className="user-info">{user.username} - {user.role}</span>
-            <button className="delete-btn" onClick={() => handleDelete(user.id)}>Delete</button>
-            <button className="change-btn" onClick={() => setEditingUserId(user.id)}>Change Password</button>
+            <button className="delete-btn" onClick={() => handleDelete(user._id)}>Delete</button>
+            <button className="change-btn" onClick={() => setEditingUserId(user._id)}>Change Password</button>
 
-            {editingUserId === user.id && (
+            {editingUserId === user._id && (
               <div className="password-edit-form">
                 <input
                   type="password"
@@ -136,7 +136,7 @@ function ManageUsers() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
-                <button onClick={() => handlePasswordUpdate(user.id)}>Update</button>
+                <button onClick={() => handlePasswordUpdate(user._id)}>Update</button>
               </div>
             )}
           </li>

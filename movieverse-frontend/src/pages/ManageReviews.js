@@ -92,7 +92,7 @@ function ManageReviews() {
             group.userId === userId
               ? {
                   ...group,
-                  reviews: group.reviews.filter(r => r.reviewId !== reviewId),
+                  reviews: group.reviews.filter(r => r._id !== reviewId),
                 }
               : group
           ).filter(group => group.reviews.length > 0)
@@ -120,7 +120,7 @@ function ManageReviews() {
             <h3>{group.username} (User ID: {group.userId})</h3>
             <ul className="review-list">
               {group.reviews.map(review => (
-                <li key={review.reviewId} className="review-item">
+                <li key={review._id} className="review-item">
                   <span className="review-info">
                     {/* Check for movie title */}
                     <strong>Movie:</strong> {review.movie?.title || 'Movie not found'} <br />
@@ -128,7 +128,7 @@ function ManageReviews() {
                     <strong>Review:</strong> {review.content || 'No review content available'} <br />
                     <strong>Rating:</strong> {review.rating}/5
                   </span>
-                  <button className="delete-btn" onClick={() => handleDelete(group.userId, review.reviewId)}>Delete</button>
+                  <button className="delete-btn" onClick={() => handleDelete(group.userId, review._id)}>Delete</button>
                 </li>
               ))}
             </ul>
