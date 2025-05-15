@@ -591,9 +591,21 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ message: "Admins only." });
-  next();
+// const isAdmin = (req, res, next) => {
+//   if (req.user.role !== 'admin') return res.status(403).json({ message: "Admins only." });
+//   next();
+// };
+
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ message: "Admins only." });
+    }
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: "Server error" });
+  }
 };
 
 // Register new user and save to MongoDB
@@ -644,6 +656,22 @@ app.get("/admin/summary", authenticateJWT, isAdmin, async (req, res) => {
 app.get("/users", authenticateJWT, isAdmin, async (req, res) => {
   const users = await User.find();
   res.json(users);
+});
+// Update user's role - only accessible by admin
+app.put('/users/:id/role', authenticateJWT, isAdmin, async (req, res) => {
+  const { role } = req.body;
+  const validRoles = ['admin', 'user'];
+  if (!validRoles.includes(role)) {
+    return res.status(400).json({ message: 'Invalid role.' });
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, { role }, { new: true });
+    if (!user) return res.status(404).json({ message: 'User not found.' });
+    res.json({ message: 'Role updated successfully', user });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update role', error: err });
+  }
 });
 
 app.get("/users/:id", authenticateJWT, isAdmin, async (req, res) => {
@@ -1041,7 +1069,7 @@ app.get("/reviews-public", async (req, res) => {
 //   }
 // });
 
-app.get("/reviews", authenticateJWT, isAdmin, async (req, res) => {
+app.get("/reviews" ,isAdmin,authenticateJWT, async (req, res) => {
   try {
     const reviews = await Review.find()
       .populate('userId', 'username')  // Populate username only
@@ -1084,6 +1112,28 @@ app.get("/reviews", authenticateJWT, isAdmin, async (req, res) => {
   }
 });
 
+app.get("/reviews-all", async (req, res) => {
+  try {
+    const reviews = await Review.find()
+      .populate('userId', 'username')   // Get username from User
+      .populate('movieId', 'title');    // Get title from Movie
+
+    // Map to flat structure for easy frontend filtering
+    const flatReviews = reviews.map(review => ({
+      _id: review._id,
+      userId: review.userId._id,
+      username: review.userId.username,
+      movieId: review.movieId._id.toString(),  // string for easy comparison
+      movieTitle: review.movieId.title,
+      reviewText: review.reviewText,
+      rating: review.rating,
+    }));
+
+    res.json(flatReviews);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching reviews", error });
+  }
+});
 
 // PUT - Update Review
 app.put("/reviews/:id", authenticateJWT, async (req, res) => {

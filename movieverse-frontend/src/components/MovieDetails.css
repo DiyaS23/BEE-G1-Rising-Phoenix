@@ -152,4 +152,37 @@
   .add-review button:hover {
     background-color: #ff6333;
   }
-  
+  .reviews-box {
+  background-color: #f2f2f2;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.review-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.poster-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.trailer-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.trailer-container {
+  margin-bottom: 20px;
+}
